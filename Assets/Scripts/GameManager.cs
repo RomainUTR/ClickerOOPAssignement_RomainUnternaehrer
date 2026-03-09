@@ -9,7 +9,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TMP_Text RecapText, InformationsText;
 
     [SerializeField] private InputActionReference ClickInput, FactoryInput, PowerInput;
-    [SerializeField] private ClickEventChannelSO ClickEventChannel, FactoryClickEventChannel, PowerClickEventChannel;
+    [SerializeField] private ClickEventChannelSO ClickEventChannel;
+
+    [SerializeField] private PurchasableUpgrade FactoryUpgrade, PowerUpgrade;
 
     private bool _canInteract = true;
 
@@ -37,15 +39,15 @@ public class GameManager : MonoBehaviour
         RecapText.text = string.Empty;
         InformationsText.text = string.Empty;
 
-        Inventory.Clicks += Inventory.Factories * (1 + Inventory.Power / 10);
-        yield return new WaitForSeconds(0.5f);
+        Inventory.Clicks += Inventory.Factories * (1 + Inventory.Factories / 10);
+        yield return new WaitForSeconds(0.25f);
 
         RecapText.text = $"CONSOLE > You currenty have {Inventory.Clicks} click(s). You currently have {Inventory.Factories} factory(ies) and {Inventory.Power} of click level.";
 
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.25f);
 
-        int priceOfPower = (Inventory.Power * Inventory.Power) / 2;
-        int priceOfFactory = (Inventory.Factories * Inventory.Factories) / 2;
+        int priceOfPower = PowerUpgrade.GetPrice();
+        int priceOfFactory = FactoryUpgrade.GetPrice();
 
         InformationsText.text = $"CONSOLE > You can : press SPACE for click.\r\nPress B for buy a production unit for {priceOfFactory} if you have enough. If not, nothing happens\r\nPress U for improve you click power for {priceOfPower} if you have enough. If not, nothing happens";
         _canInteract = true;
@@ -53,35 +55,31 @@ public class GameManager : MonoBehaviour
 
     private void HandleClick(InputAction.CallbackContext context)
     {
+        if (!_canInteract) return;
+
+        _canInteract = false;
+
         ClickEventChannel.RaiseEvent();
         StartCoroutine(UpdateUI());
     } 
 
     private void HandleFactory(InputAction.CallbackContext context)
     {
-        int priceOfFactory = (Inventory.Factories * Inventory.Factories) / 2;
+        if (!_canInteract) return;
 
-        if (_canInteract && Inventory.Clicks >= priceOfFactory)
-        {
-            FactoryClickEventChannel.RaiseEvent();
-            Inventory.Clicks -= priceOfFactory;
-            _canInteract = false;
-        } 
+        _canInteract = false;
 
+        FactoryUpgrade.GetPrice();
         StartCoroutine(UpdateUI());
     }
 
     private void HandlePower(InputAction.CallbackContext context)
     {
-        int priceOfPower = (Inventory.Power * Inventory.Power) / 2;
+        if (!_canInteract) return;
 
-        if (_canInteract && Inventory.Clicks >= priceOfPower)
-        {
-            PowerClickEventChannel.RaiseEvent();
-            Inventory.Clicks -= priceOfPower;
-            _canInteract = false;
-        }
+        _canInteract = false;
 
+        PowerUpgrade.TryBuy();
         StartCoroutine(UpdateUI());
     }
 }

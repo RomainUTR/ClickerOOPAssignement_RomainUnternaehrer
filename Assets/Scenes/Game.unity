@@ -856,6 +856,8 @@ MonoBehaviour:
   ClickEventChannel: {fileID: 11400000, guid: 549a8a5143ba96e489c08bd1312e4189, type: 2}
   FactoryClickEventChannel: {fileID: 11400000, guid: ed1baf9a81985054588bdd1f6378b7eb, type: 2}
   PowerClickEventChannel: {fileID: 11400000, guid: 5e5c327de27f13a449dbc3e82e9baff4, type: 2}
+  FactoryUpgrade: {fileID: 1305289628}
+  PowerUpgrade: {fileID: 1305289629}
 --- !u!4 &1305289626
 Transform:
   m_ObjectHideFlags: 0
@@ -896,7 +898,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cee03aaf967eb1e44a1251836ac4ada0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FactoryClick
-  ClickEventChannel: {fileID: 11400000, guid: ed1baf9a81985054588bdd1f6378b7eb, type: 2}
+  ClickEventChannelSO: {fileID: 11400000, guid: ed1baf9a81985054588bdd1f6378b7eb, type: 2}
 --- !u!114 &1305289629
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -909,7 +911,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 487a9861d66f60c44bb39942653b6c6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PowerClick
-  ClickEventChannel: {fileID: 11400000, guid: 5e5c327de27f13a449dbc3e82e9baff4, type: 2}
+  ClickEventChannelSO: {fileID: 11400000, guid: 5e5c327de27f13a449dbc3e82e9baff4, type: 2}
 --- !u!114 &1344935319
 MonoBehaviour:
   m_ObjectHideFlags: 0
