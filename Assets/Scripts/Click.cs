@@ -16,6 +16,15 @@ public class Click : MonoBehaviour
 
     public void HandleClick()
     {
-        Inventory.Clicks += (Inventory.Power * Inventory.Power) / (1 + Inventory.Power / 2);
+        int baseProduction = (Inventory.Power * Inventory.Power) / (1 + Inventory.Power / 2);
+
+        if (Inventory.IsFrenzyActive)
+        {
+            Inventory.Clicks += baseProduction * 2;
+        }
+        else
+        {
+            Inventory.Clicks += baseProduction;
+        }
     }
 }
